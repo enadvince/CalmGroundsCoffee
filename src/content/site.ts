@@ -1,0 +1,37 @@
+import type { SiteConfig } from "./types";
+
+export const site: SiteConfig = {
+  name: "Calm Grounds Coffee",
+  tagline: "crafted for quiet moments",
+  // PLACEHOLDER — replace with the production domain once it's on Vercel
+  url: "https://calmgroundscoffee.vercel.app",
+  email: "calmgroundscoffee@gmail.com",
+  instagram: "https://www.instagram.com/calmgroundscoffee",
+  instagramHandle: "@calmgroundscoffee",
+  // PLACEHOLDER — confirm the exact Facebook page URL with the client
+  facebook: "https://www.facebook.com/calmgroundscoffee",
+  // PLACEHOLDER — confirm the Messenger username (m.me/<page-username>)
+  messenger: "https://m.me/calmgroundscoffee",
+  city: "Cebu City",
+  timezone: "Asia/Manila",
+
+  // Only `enabled: true` links render on /delivery.
+  // PLACEHOLDER — add the client's real store links.
+  deliveryLinks: [
+    { label: "GrabFood", url: "https://food.grab.com/ph/en/", enabled: false },
+    { label: "foodpanda", url: "https://www.foodpanda.ph/", enabled: false },
+    { label: "Lalamove", url: "https://www.lalamove.com/en-ph/", enabled: true },
+  ],
+
+  // Switch `mode` to "self-delivery" or "platform" to change the /delivery page.
+  // PLACEHOLDER — every value below needs the client's real policy.
+  delivery: {
+    mode: "preorder-batch",
+    coverage: "Cebu City, Mandaue, and parts of Talisay",
+    leadTime: "Order a day ahead",
+    minimumOrder: 600,
+    cutoff: "8:00 PM the night before",
+    batchDays: ["Wednesday", "Saturday"],
+    courier: "Lalamove",
+  },
+};

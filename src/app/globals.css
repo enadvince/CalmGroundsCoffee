@@ -1,0 +1,368 @@
+@import "tailwindcss";
+
+/* ───────────────────────── Brand tokens ─────────────────────────
+   Eyedropped from /public/brand/mascot.png:
+   blue #0E36F0 · cream #FBEFE3. Two-tone only — no extra accents. */
+@theme {
+  --color-calm-blue: #0e36f0;
+  --color-deep-ink: #0b1a5c;
+  --color-foam-cream: #fbefe3;
+  --color-milk: #fffbf5;
+  --color-latte: #e5c9ae;
+  --color-steam: #ffffff;
+
+  --font-display: var(--font-unbounded), "Arial Black", system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), system-ui, sans-serif;
+  --font-note: var(--font-caveat), cursive;
+
+  --radius-card: 1.5rem;
+  --radius-sm: 0.75rem;
+
+  --shadow-lift: 0 18px 40px -18px rgb(11 26 92 / 0.38);
+
+  --ease-calm: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --breakpoint-xs: 22.5rem;
+}
+
+/* Section-aware colors (see [data-theme] below). `inline` so utilities read the
+   variable at the element, not at :root — otherwise blue sections inherit milk values. */
+@theme inline {
+  --color-fg: var(--fg);
+  --color-bg: var(--bg);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-line: var(--line);
+}
+
+/* ───────────────────────── Section themes ───────────────────────── */
+:root,
+[data-theme="milk"] {
+  --bg: var(--color-milk);
+  --fg: var(--color-deep-ink);
+  --accent: var(--color-calm-blue);
+  --on-accent: var(--color-steam);
+  --line: var(--color-latte);
+  --field-border: var(--color-deep-ink);
+  --focus: var(--color-calm-blue);
+}
+[data-theme="cream"] {
+  --bg: var(--color-foam-cream);
+  --fg: var(--color-deep-ink);
+  --accent: var(--color-calm-blue);
+  --on-accent: var(--color-steam);
+  --line: var(--color-latte);
+  --field-border: var(--color-deep-ink);
+  --focus: var(--color-calm-blue);
+}
+[data-theme="blue"] {
+  --bg: var(--color-calm-blue);
+  --fg: var(--color-foam-cream);
+  --accent: var(--color-foam-cream);
+  --on-accent: var(--color-calm-blue);
+  --line: rgb(251 239 227 / 0.35);
+  --field-border: var(--color-foam-cream);
+  --focus: var(--color-foam-cream);
+}
+[data-theme] {
+  color: var(--fg);
+}
+
+/* ───────────────────────── Base ───────────────────────── */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    background: var(--color-milk);
+    color: var(--color-deep-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-calm-blue);
+    color: var(--color-foam-cream);
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus, var(--color-calm-blue));
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* ───────────────────────── Fluid type scale ───────────────────────── */
+@utility text-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3rem, 13vw, 11.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+@utility text-h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.25rem, 1.6rem + 3.2vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+@utility text-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 1.3rem + 2.2vw, 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+@utility text-h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.125rem, 1rem + 0.7vw, 1.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+@utility text-marquee {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 8vw, 7rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+@utility text-eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+@utility text-body-lg {
+  font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  line-height: 1.55;
+}
+@utility text-note {
+  font-family: var(--font-note);
+  font-weight: 600;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  line-height: 1.1;
+}
+
+/* Outlined display type. Drawn with text-shadow rather than -webkit-text-stroke,
+   which exposes Unbounded's overlapping glyph contours. */
+@utility text-outline {
+  --o: clamp(1px, 0.12vw, 2px);
+  color: var(--bg);
+  text-shadow:
+    var(--o) 0 var(--fg),
+    calc(var(--o) * -1) 0 var(--fg),
+    0 var(--o) var(--fg),
+    0 calc(var(--o) * -1) var(--fg),
+    var(--o) var(--o) var(--fg),
+    calc(var(--o) * -1) calc(var(--o) * -1) var(--fg),
+    var(--o) calc(var(--o) * -1) var(--fg),
+    calc(var(--o) * -1) var(--o) var(--fg);
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: 90rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 80rem) {
+    padding-inline: 3.5rem;
+  }
+}
+
+/* Card hover: lift −4px, 1.02 scale, ink-tinted shadow (200ms). */
+@utility card-lift {
+  transition-property: transform, box-shadow;
+  transition-duration: 200ms;
+  transition-timing-function: var(--ease-calm);
+  &:hover,
+  &:focus-within {
+    transform: translate3d(0, -4px, 0) scale(1.02);
+    box-shadow: var(--shadow-lift);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &:hover,
+    &:focus-within {
+      transform: none;
+    }
+  }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ───────────────────────── Motion helpers ───────────────────────── */
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes letter-rise {
+  from {
+    transform: translate3d(0, 110%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes soft-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translate3d(0, -6px, 0);
+  }
+  50% {
+    transform: translate3d(0, 6px, 0);
+  }
+}
+
+/* Hero letters: 40ms stagger, 700ms each — pure CSS so it starts on first paint. */
+.hero-letter {
+  display: inline-block;
+  animation: letter-rise 700ms var(--ease-calm) both;
+  animation-delay: calc(var(--i, 0) * 40ms + 150ms);
+}
+.hero-fade {
+  animation: soft-fade-up 600ms var(--ease-calm) both;
+  animation-delay: var(--d, 0ms);
+}
+.bob {
+  animation: bob 4s ease-in-out infinite;
+}
+
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within @keyframes letter-rise {
+  from {
+    transform: translate3d(0, 110%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes soft-fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translate3d(0, -6px, 0);
+  }
+  50% {
+    transform: translate3d(0, 6px, 0);
+  }
+}
+
+/* Hero letters: 40ms stagger, 700ms each — pure CSS so it starts on first paint. */
+.hero-letter {
+  display: inline-block;
+  animation: letter-rise 700ms var(--ease-calm) both;
+  animation-delay: calc(var(--i, 0) * 40ms + 150ms);
+}
+.hero-fade {
+  animation: soft-fade-up 600ms var(--ease-calm) both;
+  animation-delay: var(--d, 0ms);
+}
+.bob {
+  animation: bob 4s ease-in-out infinite;
+}
+
+.marquee-track {
+  animation-play-state: paused;
+}
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: currentColor;
+  animation: pulse-ring 2s var(--ease-calm) infinite;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track,
+  .pulse-dot::after,
+  .hero-letter,
+  .hero-fade,
+  .bob {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}
