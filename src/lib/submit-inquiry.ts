@@ -1,8 +1,9 @@
-import type { BookingValues, OrderValues } from "./schema";
+import type { BookingValues, NewsletterValues, OrderValues } from "./schema";
 
 export type Inquiry =
   | { kind: "booking"; data: BookingValues }
-  | { kind: "order"; data: OrderValues };
+  | { kind: "order"; data: OrderValues }
+  | { kind: "newsletter"; data: NewsletterValues };
 
 export type InquiryResult = { ok: true; reference: string } | { ok: false; error: string };
 

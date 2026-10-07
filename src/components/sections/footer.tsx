@@ -13,14 +13,21 @@ import { TransitionLink } from "@/components/motion/page-transition";
 import { SocialIcon } from "@/components/ui/social-icon";
 import { Mascot } from "@/components/ui/mascot";
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
+import { withUtm } from "@/lib/utm";
+import { CopyButton } from "@/components/ui/copy-button";
+import { NewsletterSignup } from "./newsletter-signup";
 
 export function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer data-theme="blue" className="relative overflow-hidden border-t-2 border-foam-cream/20 bg-calm-blue text-foam-cream">
+    <footer data-theme="blue" className="print:hidden relative overflow-hidden border-t-2 border-foam-cream/20 bg-calm-blue text-foam-cream">
       <Stagger
         className="container-page flex flex-col gap-14 pt-20 pb-8 md:pt-28"
       >
+        <StaggerItem>
+          <NewsletterSignup />
+        </StaggerItem>
+
         <div className="grid gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
           <StaggerItem className="flex flex-col items-start gap-6">
             <Mascot className="size-24" decorative sizes="96px" />
@@ -44,13 +51,16 @@ export function Footer() {
             <StaggerItem>
               <h2 className="text-eyebrow mb-4 font-sans opacity-80">Say hi</h2>
               <ul className="flex flex-col gap-2.5">
-                <li>
-                  <a href={`mailto:${site.email}`} className="break-all underline-offset-4 hover:underline">
-                    {site.email}
+                <li className="flex items-start gap-2">
+                  <a href={`mailto:${site.email}`} className="underline-offset-4 hover:underline">
+                    {/* Allow the line to break after "@" rather than mid-word. */}
+                    {site.email.split("@")[0]}@<wbr />
+                    {site.email.split("@")[1]}
                   </a>
+                  <CopyButton value={site.email} label="Copy email address" className="size-7 [&_svg]:size-3.5" />
                 </li>
                 <li>
-                  <a href={site.messenger} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
+                  <a href={withUtm(site.messenger, "footer")} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
                     Message us
                   </a>
                 </li>
@@ -61,13 +71,13 @@ export function Footer() {
               <h2 className="text-eyebrow mb-4 font-sans opacity-80">Follow</h2>
               <ul className="flex flex-col gap-2.5">
                 <li>
-                  <a href={site.instagram} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 underline-offset-4 hover:underline">
+                  <a href={withUtm(site.instagram, "footer")} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 underline-offset-4 hover:underline">
                     <SocialIcon network="instagram" className="size-4" />
                     {site.instagramHandle}
                   </a>
                 </li>
                 <li>
-                  <a href={site.facebook} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 underline-offset-4 hover:underline">
+                  <a href={withUtm(site.facebook, "footer")} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 underline-offset-4 hover:underline">
                     <SocialIcon network="facebook" className="size-4" />
                     Facebook
                   </a>
@@ -103,7 +113,7 @@ export function Footer() {
           </p>
           <p className="opacity-90">
             Sample site by{" "}
-            <a href="https://waddlelabs.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-0.5 underline underline-offset-4">
+            <a href={withUtm("https://waddlelabs.com", "credit")} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-0.5 underline underline-offset-4 hover:decoration-2">
               Waddle Labs
               <ArrowUpRight className="size-3.5" aria-hidden="true" />
             </a>

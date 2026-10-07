@@ -4,13 +4,22 @@ import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 import { EASE_CALM } from "@/lib/motion";
 import { cn } from "@/lib/cn";
+import { useColorTheme } from "@/hooks/use-theme";
 
 export type Theme = "blue" | "cream" | "milk";
 
-const COLORS: Record<Theme, { bg: string; fg: string }> = {
-  blue: { bg: "#0e36f0", fg: "#fbefe3" },
-  cream: { bg: "#fbefe3", fg: "#0b1a5c" },
-  milk: { bg: "#fffbf5", fg: "#0b1a5c" },
+const COLORS: Record<"light" | "dark", Record<Theme, { bg: string; fg: string }>> = {
+  light: {
+    blue: { bg: "#0e36f0", fg: "#fbefe3" },
+    cream: { bg: "#fbefe3", fg: "#0b1a5c" },
+    milk: { bg: "#fffbf5", fg: "#0b1a5c" },
+  },
+  // Mirrors the dark-mode token remap in globals.css.
+  dark: {
+    blue: { bg: "#0e36f0", fg: "#fbefe3" },
+    cream: { bg: "#11236f", fg: "#fbefe3" },
+    milk: { bg: "#0b1a5c", fg: "#fbefe3" },
+  },
 };
 
 type ThemeSectionProps = React.ComponentProps<"section"> & {
@@ -28,6 +37,7 @@ export function ThemeSection({ theme, flipFrom, className, children, ...rest }: 
   const ref = useRef<HTMLElement>(null);
   const inView = useInView(ref, { amount: 0.35, once: true });
   const reduce = useReducedMotion();
+  const { theme: colorTheme } = useColorTheme();
 
   if (!flipFrom || reduce) {
     return (
@@ -37,8 +47,9 @@ export function ThemeSection({ theme, flipFrom, className, children, ...rest }: 
     );
   }
 
-  const from = COLORS[flipFrom];
-  const to = COLORS[theme];
+  const palette = COLORS[colorTheme ?? "light"];
+  const from = palette[flipFrom];
+  const to = palette[theme];
   const { onAnimationStart, onDrag, onDragStart, onDragEnd, ...sectionProps } = rest;
   void onAnimationStart; void onDrag; void onDragStart; void onDragEnd;
 

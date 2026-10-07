@@ -110,3 +110,10 @@ export const isThisMonth = (p: PopUp, now = new Date()) => {
 export function sortByStart(a: PopUp, b: PopUp) {
   return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
 }
+
+/** "October 1, 2026" from a YYYY-MM-DD day string. */
+export function formatLongDate(day: string): string {
+  return new Intl.DateTimeFormat("en-PH", { timeZone: TIMEZONE, year: "numeric", month: "long", day: "numeric" }).format(
+    new Date(`${day}T12:00:00${OFFSET}`),
+  );
+}

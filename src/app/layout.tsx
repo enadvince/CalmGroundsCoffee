@@ -3,7 +3,10 @@ import { Caveat, DM_Sans, Unbounded } from "next/font/google";
 import { Providers } from "@/components/providers";
 import { Header } from "@/components/sections/header";
 import { Footer } from "@/components/sections/footer";
-import { FloatingBookPill } from "@/components/sections/floating-book-pill";
+import { FloatingActions } from "@/components/sections/floating-actions";
+import { CookieBanner } from "@/components/sections/cookie-banner";
+import { SiteSearch } from "@/components/sections/site-search";
+import { themeInitScript } from "@/hooks/use-theme";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -49,15 +52,28 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-PH" className={`${unbounded.variable} ${dmSans.variable} ${caveat.variable}`}>
+    // suppressHydrationWarning: the theme script may add `dark` to <html> before React hydrates.
+    <html lang="en-PH" className={`${unbounded.variable} ${dmSans.variable} ${caveat.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="min-h-svh">
         <Providers>
           <Header />
+          {/* Print-only masthead (screen chrome is hidden in print). */}
+          <div className="hidden border-b-2 border-black pb-3 print:block">
+            <p className="font-display text-xl font-extrabold uppercase">{site.name}</p>
+            <p>
+              {site.email} · {site.instagramHandle} · {site.url.replace(/^https?:\/\//, "")}
+            </p>
+          </div>
           <main id="main" tabIndex={-1} className="outline-none">
             {children}
           </main>
           <Footer />
-          <FloatingBookPill />
+          <FloatingActions />
+          <CookieBanner />
+          <SiteSearch />
         </Providers>
       </body>
     </html>

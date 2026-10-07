@@ -2,6 +2,7 @@ import type { LineArtName } from "@/content/types";
 import { LineArt } from "@/components/ui/line-art";
 import { Parallax } from "@/components/motion/parallax";
 import { SteamPaths } from "@/components/motion/steam-paths";
+import { formatLongDate } from "@/lib/dates";
 
 /** Compact blue hero for inner pages. Entrance uses the same CSS choreography as Home. */
 export function PageHero({
@@ -9,12 +10,15 @@ export function PageHero({
   title,
   intro,
   art = "steam",
+  updated,
   children,
 }: {
   eyebrow: string;
   title: React.ReactNode;
   intro?: React.ReactNode;
   art?: LineArtName;
+  /** YYYY-MM-DD, rendered as "Last updated …" */
+  updated?: string;
   children?: React.ReactNode;
 }) {
   return (
@@ -32,13 +36,18 @@ export function PageHero({
               {intro}
             </div>
           )}
+          {updated && (
+            <p className="hero-fade text-sm opacity-90" style={{ "--d": "380ms" } as React.CSSProperties}>
+              Last updated <time dateTime={updated}>{formatLongDate(updated)}</time>
+            </p>
+          )}
           {children && (
             <div className="hero-fade" style={{ "--d": "420ms" } as React.CSSProperties}>
               {children}
             </div>
           )}
         </div>
-        <Parallax speed={0.6} className="pointer-events-none hidden md:block">
+        <Parallax speed={0.6} className="pointer-events-none hidden md:block print:hidden">
           <div className="relative">
             {art === "cup" || art === "cart" ? (
               <SteamPaths className="absolute -top-16 left-1/2 h-16 w-14 -translate-x-1/2" delay={0.5} />

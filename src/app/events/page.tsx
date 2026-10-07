@@ -7,6 +7,7 @@ import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { LineArt } from "@/components/ui/line-art";
 import { Annotation } from "@/components/ui/annotation";
+import { CopyButton } from "@/components/ui/copy-button";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { getEventFaqs, getEventGallery, getPackages, getSite } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
@@ -39,6 +40,8 @@ export default function EventsPage() {
   return (
     <>
       <PageHero
+        updated={site.updated.events}
+       
         eyebrow="Private events"
         title={
           <>
@@ -94,8 +97,12 @@ export default function EventsPage() {
                 </li>
               ))}
             </ol>
-            <p className="text-sm opacity-90">
-              Rather email? <a href={`mailto:${site.email}`} className="font-medium text-calm-blue underline underline-offset-4">{site.email}</a>
+            <p className="flex flex-wrap items-center gap-2 text-sm opacity-90">
+              Rather email?
+              <a href={`mailto:${site.email}`} className="font-medium text-calm-blue underline underline-offset-4 hover:decoration-2">
+                {site.email}
+              </a>
+              <CopyButton value={site.email} label="Copy email address" className="size-8 text-calm-blue" />
             </p>
             <Annotation className="hidden lg:block">we read every one ♡</Annotation>
           </Reveal>

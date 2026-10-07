@@ -19,6 +19,10 @@ import { Wordmark } from "@/components/ui/logo";
 import { EASE_CALM } from "@/lib/motion";
 import { cn } from "@/lib/cn";
 import { MobileNav } from "./mobile-nav";
+import { SearchButton } from "./site-search";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { ScrollProgress } from "@/components/ui/scroll-progress";
+import { withUtm } from "@/lib/utm";
 
 export function Header() {
   const pathname = usePathname();
@@ -46,7 +50,7 @@ export function Header() {
       </a>
       <motion.header
         data-theme="blue"
-        className="fixed inset-x-0 top-0 z-50 bg-calm-blue text-foam-cream"
+        className="fixed inset-x-0 top-0 z-50 bg-calm-blue text-foam-cream print:hidden"
         initial={false}
         animate={{ y: hidden && !reduce ? "-100%" : "0%" }}
         transition={{ duration: 0.45, ease: EASE_CALM }}
@@ -94,9 +98,11 @@ export function Header() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
+            <SearchButton />
+            <ThemeToggle className="hidden sm:flex" />
             <a
-              href={site.instagram}
+              href={withUtm(site.instagram, "header")}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Calm Grounds on Instagram (opens in a new tab)"
@@ -105,11 +111,11 @@ export function Header() {
               <SocialIcon network="instagram" />
             </a>
             <a
-              href={site.facebook}
+              href={withUtm(site.facebook, "header")}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Calm Grounds on Facebook (opens in a new tab)"
-              className="hidden size-11 items-center justify-center rounded-full transition-colors hover:bg-foam-cream/15 sm:flex"
+              className="hidden size-11 items-center justify-center rounded-full transition-colors hover:bg-foam-cream/15 xl:flex"
             >
               <SocialIcon network="facebook" />
             </a>
@@ -118,7 +124,7 @@ export function Header() {
             </Button>
             <button
               type="button"
-              className="flex size-11 items-center justify-center rounded-full border-2 border-foam-cream lg:hidden"
+              className="flex size-11 items-center justify-center rounded-full border-2 border-foam-cream transition-colors hover:bg-foam-cream hover:text-calm-blue lg:hidden"
               aria-expanded={menuOpen}
               aria-controls="mobile-nav"
               aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -141,6 +147,7 @@ export function Header() {
             </button>
           </div>
         </div>
+        <ScrollProgress />
       </motion.header>
       <MobileNav open={menuOpen} onClose={() => setMenuOpen(false)} />
     </>

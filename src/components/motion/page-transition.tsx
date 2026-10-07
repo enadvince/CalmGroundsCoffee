@@ -56,7 +56,15 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
   const pendingHref = useRef<string | null>(null);
   const safety = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  /** After a curtain navigation: jump to the URL hash target if there is one, else the top. */
   const scrollTop = useCallback(() => {
+    const hash = decodeURIComponent(window.location.hash.slice(1));
+    const target = hash ? document.getElementById(hash) : null;
+    if (target) {
+      if (lenis) lenis.scrollTo(target, { immediate: true, force: true, offset: -140 });
+      else window.scrollTo(0, target.getBoundingClientRect().top + window.scrollY - 140);
+      return;
+    }
     if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
     else window.scrollTo(0, 0);
   }, [lenis]);
@@ -104,6 +112,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
         {phase !== "idle" && (
           <motion.div
             key="curtain"
+            data-theme="blue"
             className="fixed inset-0 z-[100] flex items-center justify-center bg-calm-blue"
             initial={{ y: "100%" }}
             animate={{ y: phase === "revealing" ? "-100%" : "0%" }}

@@ -12,6 +12,8 @@ import { TransitionLink } from "@/components/motion/page-transition";
 import { SocialIcon } from "@/components/ui/social-icon";
 import { SteamPaths } from "@/components/motion/steam-paths";
 import { EASE_CALM } from "@/lib/motion";
+import { withUtm } from "@/lib/utm";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export function MobileNav({ open, onClose }: { open: boolean; onClose: () => void }) {
   const pathname = usePathname();
@@ -95,17 +97,18 @@ export function MobileNav({ open, onClose }: { open: boolean; onClose: () => voi
           <div className="mt-auto flex items-end justify-between gap-6 pt-12">
             <div className="flex flex-col gap-3 text-sm">
               <p className="text-note">{site.tagline}</p>
-              <a href={`mailto:${site.email}`} className="underline underline-offset-4">
+              <a href={`mailto:${site.email}`} className="underline underline-offset-4 hover:decoration-2">
                 {site.email}
               </a>
               <div className="flex gap-2">
-                <a href={site.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in a new tab)" className="flex size-11 items-center justify-center rounded-full border-2 border-foam-cream/40">
+                <ThemeToggle className="border-2 border-foam-cream/40 hover:border-foam-cream" />
+                <a href={withUtm(site.instagram, "mobile-menu")} target="_blank" rel="noopener noreferrer" aria-label="Instagram (opens in a new tab)" className="flex size-11 items-center justify-center rounded-full border-2 border-foam-cream/40 transition-colors hover:border-foam-cream hover:bg-foam-cream hover:text-calm-blue">
                   <SocialIcon network="instagram" />
                 </a>
-                <a href={site.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook (opens in a new tab)" className="flex size-11 items-center justify-center rounded-full border-2 border-foam-cream/40">
+                <a href={withUtm(site.facebook, "mobile-menu")} target="_blank" rel="noopener noreferrer" aria-label="Facebook (opens in a new tab)" className="flex size-11 items-center justify-center rounded-full border-2 border-foam-cream/40 transition-colors hover:border-foam-cream hover:bg-foam-cream hover:text-calm-blue">
                   <SocialIcon network="facebook" />
                 </a>
-                <a href={site.messenger} target="_blank" rel="noopener noreferrer" aria-label="Messenger (opens in a new tab)" className="flex size-11 items-center justify-center rounded-full border-2 border-foam-cream/40">
+                <a href={withUtm(site.messenger, "mobile-menu")} target="_blank" rel="noopener noreferrer" aria-label="Messenger (opens in a new tab)" className="flex size-11 items-center justify-center rounded-full border-2 border-foam-cream/40 transition-colors hover:border-foam-cream hover:bg-foam-cream hover:text-calm-blue">
                   <SocialIcon network="messenger" />
                 </a>
               </div>

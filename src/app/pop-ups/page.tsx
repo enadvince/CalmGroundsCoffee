@@ -3,7 +3,7 @@ import { PopUpExplorer } from "@/components/sections/pop-up-explorer";
 import { CtaBand } from "@/components/sections/cta-band";
 import { JsonLd } from "@/components/ui/json-ld";
 import { StatusBadge } from "@/components/ui/status-badge";
-import { getActivePopUps, getPopUps, getRegulars } from "@/lib/content";
+import { getActivePopUps, getPopUps, getRegulars, getSite } from "@/lib/content";
 import { getStatus } from "@/lib/dates";
 import { eventJsonLd } from "@/lib/jsonld";
 import { pageMetadata } from "@/lib/seo";
@@ -26,15 +26,17 @@ export default function PopUpsPage() {
     <>
       <JsonLd data={getActivePopUps(now).map(eventJsonLd)} />
       <PageHero
+        updated={getSite().updated.popUps}
+       
         eyebrow="Pop-ups"
         title="Find the cart"
         intro="Malls, campuses, markets — we move around Cebu all week. Here's where to find a quiet cup next."
         art="pin"
       >
         {live && (
-          <a href="#upcoming-title" className="inline-flex items-center gap-3">
+          <a href="#upcoming-title" className="group inline-flex items-center gap-3">
             <StatusBadge status="now" />
-            <span className="underline underline-offset-4">at {live.venue}</span>
+            <span className="underline underline-offset-4 group-hover:decoration-2">at {live.venue}</span>
           </a>
         )}
       </PageHero>

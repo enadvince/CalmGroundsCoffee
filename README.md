@@ -91,6 +91,21 @@ They submit through one function, `submitInquiry()` in `src/lib/submit-inquiry.t
 
 Errors are announced through `aria-live`, double submission is blocked, and success shows the animated mascot.
 
+## Site-wide features
+
+| Feature | Where |
+|---|---|
+| Dark mode (toggle in header / mobile menu; follows the system until chosen; no flash on load) | `hooks/use-theme.ts`, tokens in `globals.css` → "Dark mode" |
+| Full-site search (header icon, <kbd>Ctrl</kbd>/<kbd>⌘</kbd>+<kbd>K</kbd>, or <kbd>/</kbd>) — pages, menu, pop-ups, regulars, packages, FAQs | `lib/search-index.ts`, `components/sections/site-search.tsx` |
+| Scroll progress bar, back-to-top, floating Messenger button, mobile "Book us" pill | `components/ui/scroll-progress.tsx`, `components/sections/floating-actions.tsx` |
+| Newsletter signup with success state (footer) | `components/sections/newsletter-signup.tsx` |
+| Cookie/consent banner — choice stored on-device; **no analytics runs today**. Anything added later must check `hasAnalyticsConsent()` | `components/sections/cookie-banner.tsx`, `lib/consent.ts` |
+| UTM parameters on every outbound link (`utm_source=calmgroundscoffee.com&utm_medium=referral&utm_campaign=website`, plus `utm_content` per placement) | `lib/utm.ts` (applied in `Button` and every external link) |
+| Copy-to-clipboard for the email address | `components/ui/copy-button.tsx` |
+| "Last updated" date on every inner page | `site.updated` in `src/content/site.ts` |
+| Print stylesheet (black on white, no chrome, link URLs printed) — the menu prints as a clean price list | `globals.css` → "Print" |
+| Loading screen, 404 with search + popular links + next pop-up | `app/loading.tsx`, `app/not-found.tsx` |
+
 ## Brand + motion system
 
 - **Colors** (eyedropped from the mascot file): calm blue `#0E36F0`, cream `#FBEFE3`, deep ink `#0B1A5C`, milk `#FFFBF5`, latte `#E5C9AE`. They're defined as Tailwind tokens in `src/app/globals.css`, and sections switch themes with `data-theme="blue|cream|milk"`. Every text pairing passes WCAG AA. Latte is used only for decorative dividers.
@@ -131,7 +146,9 @@ All of them are re-themed to the brand tokens.
 | Brand story and values copy | `src/app/about/page.tsx` |
 | Instagram tiles and event gallery (line-art stand-ins for photos) | `src/content/gallery.ts` (+ add files to `public/gallery/`) |
 | Wordmark (currently typeset in Unbounded; the real logo SVG isn't supplied yet) | `src/components/ui/logo.tsx`, header in `src/components/sections/header.tsx` |
-| Form submission backend | `src/lib/submit-inquiry.ts` |
+| Form submission backend (booking, order, **newsletter**) | `src/lib/submit-inquiry.ts` |
+| "Last updated" dates per page | `src/content/site.ts` → `updated` |
+| Analytics (none yet — wire it behind `hasAnalyticsConsent()`) | `src/lib/consent.ts` |
 | Waddle Labs credit link | `src/components/sections/footer.tsx` |
 
 The mascot (`public/brand/mascot.png`) is the client's artwork, used as supplied. Only a stray 2px dark edge on the right was cropped off.

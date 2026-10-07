@@ -143,7 +143,7 @@ export function BookingForm({ packages }: { packages: Package[] }) {
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-sm opacity-80">We reply within 1–2 days. No payment needed to ask.</p>
-              <Button type="submit" size="lg" disabled={isSubmitting} icon={<Send className="size-4" aria-hidden="true" />}>
+              <Button type="submit" size="lg" disabled={isSubmitting} loading={isSubmitting} icon={<Send className="size-4" aria-hidden="true" />}>
                 {isSubmitting ? "Sending…" : "Send inquiry"}
               </Button>
             </div>
