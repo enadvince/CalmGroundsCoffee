@@ -17,7 +17,7 @@ export function Mascot({
   sizes?: string;
 }) {
   return (
-    <div className={cn("relative aspect-square overflow-hidden rounded-full bg-foam-cream", className)}>
+    <div className={cn("mascot-frame relative aspect-square overflow-hidden rounded-full bg-foam-cream", className)}>
       <Image
         src="/brand/mascot.png"
         alt={decorative ? "" : "Calm Grounds mascot — a smiling coffee cup meditating, with steam rising"}

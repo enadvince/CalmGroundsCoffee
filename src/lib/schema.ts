@@ -65,3 +65,5 @@ export const orderSchema = z.object({
 });
 export type OrderInput = z.input<typeof orderSchema>;
 export type OrderValues = z.output<typeof orderSchema>;
+
+export type NewsletterValues = { email: string };

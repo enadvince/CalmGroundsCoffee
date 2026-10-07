@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { SocialIcon } from "@/components/ui/social-icon";
 import { LineArt } from "@/components/ui/line-art";
 import { Annotation } from "@/components/ui/annotation";
+import { CopyButton } from "@/components/ui/copy-button";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { Parallax } from "@/components/motion/parallax";
 import { SteamPaths } from "@/components/motion/steam-paths";
@@ -29,7 +30,9 @@ export default function AboutPage() {
   const site = getSite();
   return (
     <>
-      <PageHero eyebrow="About us" title={site.tagline} intro="A little blue cart with one simple idea: good coffee tastes better when you slow down for it." art="leaf" />
+      <PageHero
+        updated={site.updated.about}
+        eyebrow="About us" title={site.tagline} intro="A little blue cart with one simple idea: good coffee tastes better when you slow down for it." art="leaf" />
 
       <section data-theme="milk" aria-labelledby="story-title" className="bg-milk py-20 md:py-28">
         <div className="container-page grid items-center gap-14 lg:grid-cols-[1fr_1.2fr]">
@@ -88,9 +91,15 @@ export default function AboutPage() {
             <p className="text-body-lg max-w-md opacity-90">Questions, collabs, or just want to know where we&apos;ll be? We&apos;d love to hear from you.</p>
           </Reveal>
           <Reveal delay={0.1} className="flex flex-col gap-3">
-            <Button href={`mailto:${site.email}`} size="lg" icon={<Mail className="size-4" aria-hidden="true" />} className="justify-between">
-              {site.email}
-            </Button>
+            <div className="flex flex-col gap-3 rounded-card border-2 border-foam-cream/30 p-5 sm:flex-row sm:items-center sm:justify-between">
+              <p className="flex min-w-0 items-center gap-2">
+                <span className="break-all font-medium">{site.email}</span>
+                <CopyButton value={site.email} label="Copy email address" />
+              </p>
+              <Button href={`mailto:${site.email}`} icon={<Mail className="size-4" aria-hidden="true" />} className="shrink-0">
+                Email us
+              </Button>
+            </div>
             <div className="grid gap-3 sm:grid-cols-3">
               <Button href={site.instagram} variant="outline" icon={<SocialIcon network="instagram" className="size-4" />}>
                 Instagram

@@ -68,6 +68,42 @@
   color: var(--fg);
 }
 
+/* ───────────────────────── Dark mode ─────────────────────────
+   Still two-tone: light surfaces turn deep ink, text and accents turn cream,
+   and calm-blue sections stay exactly as they are. Brand tokens are remapped
+   inside light scopes; [data-theme="blue"] restores the originals, so blue
+   cards nested in dark sections keep their real colors. */
+html.dark {
+  color-scheme: dark;
+}
+html.dark,
+html.dark [data-theme="milk"],
+html.dark [data-theme="cream"] {
+  --color-milk: #0b1a5c;
+  --color-foam-cream: #11236f;
+  --color-steam: #14297c;
+  --color-latte: #33458e;
+  --color-deep-ink: #fbefe3;
+  --color-calm-blue: #fbefe3;
+  --shadow-lift: 0 18px 40px -18px rgb(0 0 0 / 0.55);
+}
+html.dark [data-theme="blue"] {
+  --color-milk: #fffbf5;
+  --color-foam-cream: #fbefe3;
+  --color-steam: #ffffff;
+  --color-latte: #e5c9ae;
+  --color-deep-ink: #0b1a5c;
+  --color-calm-blue: #0e36f0;
+}
+/* Native select chevron is an inline SVG with a fixed stroke. */
+html.dark select {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23fbefe3" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>') !important;
+}
+/* The mascot artwork has a cream background; keep its circle cream in both themes. */
+html.dark .mascot-frame {
+  background-color: #fbefe3;
+}
+
 /* ───────────────────────── Base ───────────────────────── */
 @layer base {
   html {
@@ -364,5 +400,75 @@ html.lenis body {
   *::before,
   *::after {
     scroll-behavior: auto !important;
+  }
+}
+
+/* ───────────────────────── Print ─────────────────────────
+   Ink-friendly: black on white, no screen chrome, nothing left hidden by a
+   not-yet-triggered scroll reveal, and outbound link targets written out. */
+@media print {
+  @page {
+    margin: 1.5cm;
+  }
+  *,
+  *::before,
+  *::after {
+    color: #000 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    opacity: 1 !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  [data-reveal-item],
+  [data-theme] * {
+    transform: none !important;
+  }
+  html,
+  body {
+    font-size: 11pt;
+  }
+  section,
+  [data-theme] {
+    min-height: 0 !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+  }
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+  article,
+  li,
+  dl,
+  figure,
+  .rounded-card {
+    break-inside: avoid;
+  }
+  .rounded-card,
+  [class*="border-"] {
+    border-color: #999 !important;
+  }
+  /* Screen-only UI (FAQ question buttons stay — they carry the question text) */
+  button:not([aria-expanded]),
+  dialog,
+  form,
+  .marquee,
+  #mobile-nav,
+  [aria-label="Where you'll find us"] {
+    display: none !important;
+  }
+  .mascot-frame {
+    max-width: 4cm;
+  }
+  main a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    word-break: break-all;
+  }
+  .sticky {
+    position: static !important;
   }
 }

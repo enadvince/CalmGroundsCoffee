@@ -1,5 +1,6 @@
 import type { GalleryItem } from "@/content/types";
 import { site } from "@/content/site";
+import { withUtm } from "@/lib/utm";
 import { Button } from "@/components/ui/button";
 import { SocialIcon } from "@/components/ui/social-icon";
 import { Annotation } from "@/components/ui/annotation";
@@ -33,7 +34,7 @@ export function SocialBlock({ tiles }: { tiles: GalleryItem[] }) {
           {tiles.map((t, i) => (
             <StaggerItem as="li" key={t.id}>
               <a
-                href={site.instagram}
+                href={withUtm(site.instagram, "social-grid")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="card-lift group block overflow-hidden rounded-sm"

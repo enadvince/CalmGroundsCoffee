@@ -1,4 +1,5 @@
 import type { SiteConfig } from "./types";
+import { manilaDay } from "@/lib/dates";
 
 export const site: SiteConfig = {
   name: "Calm Grounds Coffee",
@@ -33,5 +34,15 @@ export const site: SiteConfig = {
     cutoff: "8:00 PM the night before",
     batchDays: ["Wednesday", "Saturday"],
     courier: "Lalamove",
+  },
+
+  // PLACEHOLDER dates — bump these whenever the matching content file changes.
+  // Pop-ups uses today's date because the demo schedule is regenerated daily.
+  updated: {
+    popUps: manilaDay(),
+    menu: "2026-10-01",
+    delivery: "2026-09-28",
+    events: "2026-09-28",
+    about: "2026-09-15",
   },
 };

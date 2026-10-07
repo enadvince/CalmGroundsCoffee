@@ -94,6 +94,8 @@ export type SiteConfig = {
   timezone: string;
   deliveryLinks: { label: string; url: string; enabled: boolean }[];
   delivery: DeliveryConfig;
+  /** "Last updated" date (YYYY-MM-DD) shown on each page. Bump it when you edit that page's content. */
+  updated: Record<"popUps" | "menu" | "delivery" | "events" | "about", string>;
 };
 
 export type LineArtName =

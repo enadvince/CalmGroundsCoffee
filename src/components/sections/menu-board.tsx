@@ -76,7 +76,7 @@ export function MenuBoard({ categories, items }: Props) {
 
   return (
     <div data-theme="milk" className="bg-milk">
-      <div className="sticky top-16 z-20 border-b-2 border-latte bg-milk py-3 md:top-[4.5rem]">
+      <div className="sticky top-16 z-20 border-b-2 border-latte bg-milk py-3 md:top-[4.5rem] print:hidden">
         <div className="container-page">
           <SlidingTabs
             mode="nav"

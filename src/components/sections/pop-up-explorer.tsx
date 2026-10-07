@@ -12,6 +12,7 @@ import { LineArt } from "@/components/ui/line-art";
 import { Reveal } from "@/components/motion/reveal";
 import { EASE_CALM } from "@/lib/motion";
 import { PopUpCard } from "./pop-up-card";
+import { withUtm } from "@/lib/utm";
 
 type Filter = "all" | "week" | "month" | "regulars";
 
@@ -66,7 +67,7 @@ export function PopUpExplorer({ popUps, regulars, initialStatus, renderedAt }: P
 
   return (
     <>
-      <div className="sticky top-16 z-20 border-b-2 border-latte bg-milk/95 py-3 backdrop-blur-none md:top-[4.5rem]" data-theme="milk">
+      <div className="sticky top-16 z-20 border-b-2 border-latte bg-milk/95 py-3 md:top-[4.5rem] print:hidden" data-theme="milk">
         <div className="container-page flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <SlidingTabs
             label="Filter pop-ups"
@@ -171,7 +172,7 @@ export function PopUpExplorer({ popUps, regulars, initialStatus, renderedAt }: P
                     )}
                   </dl>
                   {r.mapUrl && (
-                    <a href={r.mapUrl} target="_blank" rel="noopener noreferrer" className="mt-auto pt-2 font-medium text-calm-blue underline underline-offset-4" aria-label={`Directions to ${r.venue} (opens Google Maps)`}>
+                    <a href={withUtm(r.mapUrl, "regulars")} target="_blank" rel="noopener noreferrer" className="mt-auto pt-2 font-medium text-calm-blue underline underline-offset-4 hover:decoration-2" aria-label={`Directions to ${r.venue} (opens Google Maps)`}>
                       Get directions
                     </a>
                   )}

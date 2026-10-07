@@ -37,6 +37,8 @@ export default function DeliveryPage() {
   return (
     <>
       <PageHero
+        updated={site.updated.delivery}
+       
         eyebrow="Delivery"
         title="Calm, delivered"
         intro={

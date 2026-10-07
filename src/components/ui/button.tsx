@@ -9,6 +9,8 @@
 import { useState, type ComponentProps, type PointerEvent } from "react";
 import { TransitionLink } from "@/components/motion/page-transition";
 import { cn } from "@/lib/cn";
+import { withUtm } from "@/lib/utm";
+import { Spinner } from "./spinner";
 
 type Variant = "solid" | "outline";
 type Size = "md" | "lg";
@@ -19,6 +21,10 @@ type BaseProps = {
   className?: string;
   children: React.ReactNode;
   icon?: React.ReactNode;
+  /** Shows a spinner in place of the icon and marks the control busy. */
+  loading?: boolean;
+  /** utm_content for outbound links (UTM params are added to every external http link). */
+  utmContent?: string;
 };
 
 type ButtonAsButton = BaseProps & Omit<ComponentProps<"button">, "className" | "children"> & { href?: undefined };
@@ -33,12 +39,12 @@ const variants: Record<Variant, { root: string; fill: string; hoverText: string 
   solid: {
     root: "border-accent bg-accent text-on-accent",
     fill: "bg-bg",
-    hoverText: "group-hover/btn:text-accent group-focus-visible/btn:text-accent",
+    hoverText: "hover:text-accent focus-visible:text-accent",
   },
   outline: {
     root: "border-accent bg-transparent text-accent",
     fill: "bg-accent",
-    hoverText: "group-hover/btn:text-on-accent group-focus-visible/btn:text-on-accent",
+    hoverText: "hover:text-on-accent focus-visible:text-on-accent",
   },
 };
 
@@ -48,7 +54,7 @@ const sizes: Record<Size, string> = {
 };
 
 export function Button(props: ButtonProps) {
-  const { variant = "solid", size = "md", className, children, icon, ...rest } = props;
+  const { variant = "solid", size = "md", className, children, icon, loading, utmContent, ...rest } = props;
   const [origin, setOrigin] = useState<"left" | "right">("left");
   const v = variants[variant];
 
@@ -69,7 +75,11 @@ export function Button(props: ButtonProps) {
         )}
       />
       <span className="relative">{children}</span>
-      {icon && <span className="relative transition-transform duration-200 group-hover/btn:translate-x-0.5">{icon}</span>}
+      {loading ? (
+        <Spinner className="relative" />
+      ) : (
+        icon && <span className="relative transition-transform duration-200 group-hover/btn:translate-x-0.5">{icon}</span>
+      )}
     </>
   );
 
@@ -79,7 +89,7 @@ export function Button(props: ButtonProps) {
     if (external) {
       return (
         <a
-          href={href}
+          href={href.startsWith("http") ? withUtm(href, utmContent) : href}
           className={classes}
           onPointerEnter={onPointerEnter}
           {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
@@ -98,7 +108,7 @@ export function Button(props: ButtonProps) {
 
   const buttonRest = rest as Omit<ButtonAsButton, keyof BaseProps>;
   return (
-    <button type="button" className={classes} onPointerEnter={onPointerEnter} {...buttonRest}>
+    <button type="button" className={classes} onPointerEnter={onPointerEnter} aria-busy={loading || undefined} {...buttonRest}>
       {inner}
     </button>
   );

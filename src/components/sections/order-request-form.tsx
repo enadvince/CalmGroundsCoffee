@@ -151,7 +151,7 @@ export function OrderRequestForm({ menu }: { menu: MenuItem[] }) {
               {serverError ?? (errorCount > 0 ? `Please check ${errorCount} field${errorCount === 1 ? "" : "s"} above.` : "")}
             </div>
 
-            <Button type="submit" size="lg" disabled={isSubmitting} aria-disabled={isSubmitting} icon={<Send className="size-4" aria-hidden="true" />} className="self-start">
+            <Button type="submit" size="lg" disabled={isSubmitting} loading={isSubmitting} icon={<Send className="size-4" aria-hidden="true" />} className="self-start">
               {isSubmitting ? "Sending…" : "Send order request"}
             </Button>
           </motion.form>

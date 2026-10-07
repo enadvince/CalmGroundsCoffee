@@ -2,7 +2,7 @@ import { Info } from "lucide-react";
 import { PageHero } from "@/components/sections/page-hero";
 import { MenuBoard } from "@/components/sections/menu-board";
 import { CtaBand } from "@/components/sections/cta-band";
-import { getMenu, getMenuCategories } from "@/lib/content";
+import { getMenu, getMenuCategories, getSite } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -15,6 +15,8 @@ export default function MenuPage() {
   return (
     <>
       <PageHero
+        updated={getSite().updated.menu}
+       
         eyebrow="The menu"
         title="Slow cups, simply made"
         intro="Espresso classics, a few signatures we're proud of, and something for the non-coffee crowd."
